@@ -1,0 +1,10 @@
+torch
+transformers
+datasets
+peft
+accelerate
+
+codebleu
+nltk
+
+tqdm

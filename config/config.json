@@ -1,0 +1,37 @@
+{
+  "base_model_name": "Qwen/Qwen2.5-0.5B",
+  "eval_dataset_path": "eval_dataset.jsonl",
+  "output_path": "results.csv",
+  "models": [
+    {
+      "model_type": "qwen_coder",
+      "ft_percent": "2%",
+      "checkpoint_path": "coder-ft2/checkpoint-3000"
+    },
+    {
+      "model_type": "qwen_coder",
+      "ft_percent": "15%",
+      "checkpoint_path": "coder-ft15/checkpoint-3000"
+    },
+    {
+      "model_type": "qwen_coder",
+      "ft_percent": "100%",
+      "checkpoint_path": "coder-ftfull/checkpoint-3000"
+    },
+    {
+      "model_type": "qwen_base",
+      "ft_percent": "2%",
+      "checkpoint_path": "base-ft2/checkpoint-1500"
+    },
+    {
+      "model_type": "qwen_base",
+      "ft_percent": "15%",
+      "checkpoint_path": "base-ft15/checkpoint-1500"
+    },
+    {
+      "model_type": "qwen_base",
+      "ft_percent": "100%",
+      "checkpoint_path": "base-ftfull/checkpoint-1500"
+    }
+  ]
+}

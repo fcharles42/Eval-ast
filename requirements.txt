@@ -4,12 +4,11 @@ datasets
 peft
 accelerate
 
-codebleu
+codebleu==0.7.0
 nltk
 
-tree-sitter
-tree-sitter-python
+tree-sitter==0.21.3
+tree-sitter-python==0.21.0
 
 safetensors
-
 tqdm

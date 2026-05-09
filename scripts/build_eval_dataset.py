@@ -2,24 +2,36 @@ import json
 import random
 from datasets import load_dataset
 
-OUT_PATH = "eval_dataset.jsonl"
+OUT_PATH = "/content/Eval-ast/eval_dataset.jsonl"
+
 NUM_SAMPLES = 150
-MAX_CHARS = 2000
+MAX_CHARS = 5000
+
 
 def extract_prompt(code):
     lines = code.strip().split("\n")
-    return "\n".join(lines[:3])  # simple partial prompt
+    return "\n".join(lines[:3])
+
 
 def main():
     dataset = load_dataset("code_search_net", "python", split="train")
 
+    dataset = list(dataset)
+    random.shuffle(dataset)
+
     samples = []
+
     for ex in dataset:
-        code = ex.get("code", "")
-        if not code or len(code) > MAX_CHARS:
+        code = ex.get("func_code_string", "")
+
+        if not code:
+            continue
+
+        if len(code) > MAX_CHARS:
             continue
 
         prompt = extract_prompt(code)
+
         if len(prompt.strip()) < 5:
             continue
 
@@ -36,6 +48,7 @@ def main():
             f.write(json.dumps(s) + "\n")
 
     print(f"[OK] Saved {len(samples)} samples → {OUT_PATH}")
+
 
 if __name__ == "__main__":
     main()

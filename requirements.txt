@@ -7,4 +7,9 @@ accelerate
 codebleu
 nltk
 
+tree-sitter
+tree-sitter-python
+
+safetensors
+
 tqdm

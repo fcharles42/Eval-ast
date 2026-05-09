@@ -83,18 +83,19 @@ def load_model(cfg):
 # ---------------- GENERATION ----------------
 
 def generate(model, tokenizer, prompt):
+
     inputs = tokenizer(
         prompt,
         return_tensors="pt"
     ).to(model.device)
 
     with torch.no_grad():
+
         out = model.generate(
             **inputs,
-            max_new_tokens = 128, 
-            temperature=0.2,
-            top_p=0.9,
-            do_sample=False     
+            max_new_tokens=128,
+            do_sample=False,
+            pad_token_id=tokenizer.eos_token_id
         )
 
     return tokenizer.decode(
@@ -148,28 +149,54 @@ def compute_treebleu(preds, refs):
 
 
 # ---------------- EVALUATION ----------------
-
 def evaluate(cfg):
     data = load_dataset_file(cfg["eval_dataset_path"])
+
+    # DEBUG MODE
+    data = data[:5]
 
     model, tokenizer = load_model(cfg)
 
     preds = []
     refs = []
 
-    for ex in tqdm(data):
-        pred = generate(
-            model,
-            tokenizer,
-            ex["prompt"]
-        )
+    predictions_path = "/content/Eval-ast/predictions.jsonl"
 
-        preds.append(pred)
-        refs.append(ex["reference"])
+    with open(predictions_path, "w") as pred_file:
+
+        for ex in tqdm(data):
+
+            pred = generate(
+                model,
+                tokenizer,
+                ex["prompt"]
+            )
+
+            preds.append(pred)
+            refs.append(ex["reference"])
+
+            # CACHE EACH PREDICTION IMMEDIATELY
+            pred_file.write(json.dumps({
+                "prompt": ex["prompt"],
+                "prediction": pred,
+                "reference": ex["reference"]
+            }) + "\n")
+
+            pred_file.flush()
+
+    print(f"[OK] Saved predictions → {predictions_path}")
 
     valid = compute_valid_ratio(preds)
-    codebleu = compute_codebleu(preds, refs)
-    treebleu = compute_treebleu(preds, refs)
+
+    codebleu = compute_codebleu(
+        preds,
+        refs
+    )
+
+    treebleu = compute_treebleu(
+        preds,
+        refs
+    )
 
     return {
         "valid_ratio": valid,

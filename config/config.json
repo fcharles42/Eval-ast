@@ -1,11 +1,10 @@
 {
-  "base_model_name": "Qwen/Qwen2.5-0.5B",
-  "checkpoint_path": "/content/checkpoint-1500",
-
-  "eval_dataset_path": "/content/Eval-ast/eval_dataset.jsonl",
-  "output_path": "/content/Eval-ast/results.csv",
-
-  "model_type": "qwen_base",
-  "ft_percent": "2%",
-  "checkpoint_label": "50%"
+  "base_model_name":    "Qwen/Qwen2.5-0.5B",
+  "checkpoint_path":    "/content/checkpoint-1500",
+  "eval_dataset_path":  "/content/Eval-ast/eval_dataset.jsonl",
+  "output_path":        "/content/Eval-ast/results.csv",
+  "model_type":         "qwen_base",
+  "ft_percent":         "2%",
+  "checkpoint_label":   "50%",
+  "use_boundary_tokens": false
 }

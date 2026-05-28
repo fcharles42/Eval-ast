@@ -6,7 +6,7 @@ from transformers import AutoTokenizer
 
 OUT_PATH = "/content/Eval-ast/eval_dataset.jsonl"
 
-NUM_SAMPLES = 150
+NUM_SAMPLES = 100
 MAX_CHARS = 16000
 
 USE_BOUNDARY_TOKENS = False
@@ -60,7 +60,7 @@ def make_ast_dump(code):
 
 
 def main():
-    dataset = load_dataset("code_search_net", "python", split="train")
+    dataset = load_dataset("code-search-net/code_search_net", "python", split="train")
     dataset = list(dataset)
     random.shuffle(dataset)
     tokenizer = AutoTokenizer.from_pretrained(

@@ -132,7 +132,7 @@ def generate(model, tokenizer, prompt):
     with torch.no_grad():
         out = model.generate(
             **inputs,
-            max_new_tokens=2048,
+            max_new_tokens=1024,
             do_sample=False,
             temperature=0.0,
             repetition_penalty=1.05,
